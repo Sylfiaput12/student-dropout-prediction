@@ -1,28 +1,21 @@
 import joblib
 
-# load model & encoder (sekali saja saat app dijalankan)
+# load model
 model = joblib.load("model/rf_model.joblib")
+
+# load encoder target
 encoder_target = joblib.load("model/encoder_target.joblib")
 
 
 def prediction(data):
     """
     Function untuk prediksi status mahasiswa
-
-    Args:
-        data (DataFrame): data yang sudah dipreprocessing
-
-    Returns:
-        tuple: (label hasil prediksi, probability)
     """
 
-    # prediksi (hasil angka)
+    # prediksi (hasilnya angka)
     result = model.predict(data)
 
-    # probability
-    proba = model.predict_proba(data)
-
-    # ubah ke label asli
+    # balik ke label asli
     final_result = encoder_target.inverse_transform(result)
 
-    return final_result[0], proba[0]
+    return final_result[0]
